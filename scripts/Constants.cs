@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public static class Constants {
     public const string DRAW_CARD = "draw_card";
     public const string SKIP_CARD = "skip_card";
+    public const string RESTART  ="restart";
+    public const string LOCK_CARD = "lock_card";
 
     private static readonly Random rng = new Random();
 

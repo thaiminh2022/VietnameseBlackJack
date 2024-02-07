@@ -1,11 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://dsq1ct5anv1re"]
+[gd_scene load_steps=12 format=3 uid="uid://dsq1ct5anv1re"]
 
 [ext_resource type="PackedScene" uid="uid://ba46m7lb6ra7c" path="res://nodes/player.tscn" id="2_3d3xh"]
+[ext_resource type="Texture2D" uid="uid://pvmgd8e5t0kh" path="res://sprites/card_deck.png" id="3_bdtjr"]
 [ext_resource type="PackedScene" uid="uid://xwp74ptk83tv" path="res://nodes/game_manager.tscn" id="3_gq6pi"]
 [ext_resource type="Script" path="res://scripts/Seat.cs" id="3_l7aa2"]
 [ext_resource type="Script" path="res://scripts/TurnDisplayUI.cs" id="4_a1o7h"]
 [ext_resource type="Texture2D" uid="uid://cuvjoikx405nr" path="res://sprites/tile_0000.png" id="4_lwrfa"]
+[ext_resource type="Script" path="res://scripts/CardDeck.cs" id="4_n0njd"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_8d0w6"]
+[ext_resource type="Script" path="res://scripts/WaitTimerDisplay.cs" id="5_sodsk"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2D.gd" id="6_u1cy6"]
 
 [sub_resource type="SystemFont" id="SystemFont_84mc1"]
@@ -17,6 +20,7 @@ font_names = PackedStringArray("Nunito")
 Players = [NodePath("../Map/Seat 1/player"), NodePath("../Map/Seat 2/player2"), NodePath("../Map/Seat 3/player3"), NodePath("../Map/Seat 4/player4")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
 
 [node name="TurnDisplay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("label")]
 layout_mode = 3
@@ -39,6 +43,38 @@ grow_horizontal = 0
 theme_override_fonts/font = SubResource("SystemFont_84mc1")
 theme_override_font_sizes/font_size = 50
 text = "1"
+
+[node name="CardDeck" type="TextureRect" parent="CanvasLayer"]
+custom_minimum_size = Vector2(128, 128)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bdtjr")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("4_n0njd")
+
+[node name="WaitTimerDisplay" type="Label" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0.5, 0.441667, 1)
+theme_override_constants/outline_size = 30
+theme_override_font_sizes/font_size = 200
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_sodsk")
 
 [node name="Map" type="Node2D" parent="."]
 

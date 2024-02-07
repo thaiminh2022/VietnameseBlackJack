@@ -6,6 +6,7 @@ public abstract partial class GameManagerState : Node
     
     public virtual void Start() { }
     public virtual void OnInput() { }
+    public virtual void Update() {}
     public virtual void Exit() { }
 
     public void SetGameManager(GameManager gameManager) {

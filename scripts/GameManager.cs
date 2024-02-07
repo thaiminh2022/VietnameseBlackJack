@@ -6,28 +6,40 @@ public partial class GameManager : Node
 {
 
     public static GameManager Instance { get; private set; }
+    public event EventHandler<GameManagerState> OnStateChanged;
 
     [ExportCategory("Game State")]
 
     [Export]
     public GameManagerState_GenerateDeck
-        GenerateDeckState { get; private set; }
+        GenerateDeckState
+    { get; private set; }
 
     [Export]
     public GameManagerState_SplitCard
-        SplitCardState { get; private set; }
+        SplitCardState
+    { get; private set; }
 
     [Export]
     public GameManagerState_CheckSpecial
-        CheckSpecialState { get; private set; }
+        CheckSpecialState
+    { get; private set; }
 
     [Export]
     public GameManagerState_Playing
-        PlayingState { get; private set; }
+        PlayingState
+    { get; private set; }
 
     [Export]
     public GameManagerState_ShowScore
-        ShowScoreState { get; private set; }
+        ShowScoreState
+    { get; private set; }
+
+    [Export]
+    public GameManagerState_WaitingToRestart
+        WaitingToRestartState
+    { get; private set; }
+
 
     private GameManagerState currentState;
 
@@ -53,6 +65,10 @@ public partial class GameManager : Node
     {
         currentState?.OnInput();
     }
+    public override void _Process(double delta)
+    {
+        currentState?.Update();
+    }
 
     public void ChangeState(GameManagerState newState)
     {
@@ -62,7 +78,9 @@ public partial class GameManager : Node
         GD.Print("state now is: ", newState.Name);
         currentState = newState;
 
+
         newState.Start();
+        OnStateChanged?.Invoke(this, newState);
 
     }
     public void InvokeOnturnChange(int newTurn)

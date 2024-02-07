@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://xwp74ptk83tv"]
+[gd_scene load_steps=8 format=3 uid="uid://xwp74ptk83tv"]
 
 [ext_resource type="Script" path="res://scripts/GameManager.cs" id="1_coagh"]
 [ext_resource type="Script" path="res://scripts/GameManagerState_GenerateDeck.cs" id="2_wa3g2"]
@@ -6,14 +6,16 @@
 [ext_resource type="Script" path="res://scripts/GameManagerState_Playing.cs" id="4_0pkpc"]
 [ext_resource type="Script" path="res://scripts/GameManagerState_CheckSpecial.cs" id="4_fljrs"]
 [ext_resource type="Script" path="res://scripts/GameManagerState_ShowScore.cs" id="5_a0n3k"]
+[ext_resource type="Script" path="res://scripts/GameManagerState_WaitingToRestart.cs" id="7_34j7t"]
 
-[node name="game_manager" type="Node" node_paths=PackedStringArray("GenerateDeckState", "SplitCardState", "CheckSpecialState", "PlayingState", "ShowScoreState", "Players")]
+[node name="game_manager" type="Node" node_paths=PackedStringArray("GenerateDeckState", "SplitCardState", "CheckSpecialState", "PlayingState", "ShowScoreState", "WaitingToRestartState", "Players")]
 script = ExtResource("1_coagh")
 GenerateDeckState = NodePath("GemerateDeckState")
 SplitCardState = NodePath("SplitCardState")
 CheckSpecialState = NodePath("CheckSpecialState")
 PlayingState = NodePath("PlayingState")
 ShowScoreState = NodePath("ShowScoreState")
+WaitingToRestartState = NodePath("WaitingToRestartState")
 Players = []
 
 [node name="GemerateDeckState" type="Node" parent="."]
@@ -28,5 +30,13 @@ script = ExtResource("4_fljrs")
 [node name="PlayingState" type="Node" parent="."]
 script = ExtResource("4_0pkpc")
 
-[node name="ShowScoreState" type="Node" parent="."]
+[node name="ShowScoreState" type="Node" parent="." node_paths=PackedStringArray("waitToChangeStateTimer")]
 script = ExtResource("5_a0n3k")
+waitToChangeStateTimer = NodePath("WaitingToChangeState")
+
+[node name="WaitingToChangeState" type="Timer" parent="ShowScoreState"]
+wait_time = 4.0
+one_shot = true
+
+[node name="WaitingToRestartState" type="Node" parent="."]
+script = ExtResource("7_34j7t")

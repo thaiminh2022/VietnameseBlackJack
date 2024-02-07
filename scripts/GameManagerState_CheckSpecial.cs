@@ -1,5 +1,3 @@
-using Godot;
-
 public partial class GameManagerState_CheckSpecial : GameManagerState {
     
     
@@ -19,7 +17,6 @@ public partial class GameManagerState_CheckSpecial : GameManagerState {
             foreach (var card in firstTwoCards) {
                 var isAce = card.Name == CardName.CA;
 
-                GD.Print(players[i].Name, ": ", card.Name);
                 if (isAce) {
                     aceCount++;
                     continue;
@@ -36,9 +33,9 @@ public partial class GameManagerState_CheckSpecial : GameManagerState {
             }
 
             if (aceCount == 2) {
-                players[i].SetHasDoubleAce(true);
-            } else if (hasSpecial) {
-                players[i].SetHasAceAndSpeical(true);
+                players[i].SetWinningState(Player.PlayerWinningState.XiBan);
+            } else if (hasSpecial && aceCount == 1) {
+                players[i].SetWinningState(Player.PlayerWinningState.XiDach);
             }
         }
     }

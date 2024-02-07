@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ba46m7lb6ra7c"]
+[gd_scene load_steps=13 format=3 uid="uid://ba46m7lb6ra7c"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_n6iev"]
 [ext_resource type="Script" path="res://scripts/PlayerVisual.cs" id="2_78ox8"]
@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://y14m6o4x6pdt" path="res://sprites/keyboard_e.png" id="4_pvr7f"]
 [ext_resource type="Texture2D" uid="uid://crgc5k6j5ma3c" path="res://sprites/keyboard_q.png" id="5_a5wr0"]
 [ext_resource type="Texture2D" uid="uid://b3t01rjdnalld" path="res://sprites/cards/card_back.png" id="6_gv63s"]
+[ext_resource type="Texture2D" uid="uid://dqa31iixdj34c" path="res://sprites/keyboard_r_outline.png" id="7_1ouwq"]
 [ext_resource type="Script" path="res://scripts/PlayerAnimation.cs" id="7_500br"]
+[ext_resource type="Texture2D" uid="uid://dw6uycp3kykiq" path="res://sprites/keyboard_l_outline.png" id="7_of78w"]
 
 [sub_resource type="Animation" id="Animation_wur5c"]
 length = 0.001
@@ -96,7 +98,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(576, 295.5), Vector2(576, 800)]
+"values": [Vector2(576, 295.5), Vector2(576, 900)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ivmnr"]
@@ -110,14 +112,16 @@ script = ExtResource("1_n6iev")
 cardVisual = NodePath("PlayerVisual/CardVisual")
 animationVisual = NodePath("PlayerVisual/AnimationVisual")
 
-[node name="PlayerVisual" type="CanvasLayer" parent="." node_paths=PackedStringArray("player", "cardHolder", "scoreCount")]
+[node name="PlayerVisual" type="CanvasLayer" parent="." node_paths=PackedStringArray("player", "cardHolder", "scoreCountLabel", "restartBtn", "lockBtn")]
 layer = 2
 follow_viewport_enabled = true
 script = ExtResource("2_78ox8")
 player = NodePath("..")
 cardHolder = NodePath("CardVisual/CardHolder")
 cardTemplate = ExtResource("3_r1wba")
-scoreCount = NodePath("CardVisual/Labels/Score")
+scoreCountLabel = NodePath("CardVisual/Btns/Score")
+restartBtn = NodePath("CardVisual/Btns/Control/Restart")
+lockBtn = NodePath("CardVisual/Btns/Control/Lock")
 
 [node name="AnimationVisual" type="Control" parent="PlayerVisual"]
 layout_mode = 3
@@ -137,10 +141,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 576.0
-offset_top = 295.5
-offset_right = 704.0
-offset_bottom = 424.5
+offset_left = -64.0
+offset_top = -64.5
+offset_right = 64.0
+offset_bottom = 64.5
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 0.785398
@@ -163,7 +167,7 @@ grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(193, 0)
 
-[node name="Labels" type="HBoxContainer" parent="PlayerVisual/CardVisual"]
+[node name="Btns" type="HBoxContainer" parent="PlayerVisual/CardVisual"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -171,42 +175,73 @@ offset_bottom = 45.0
 grow_horizontal = 2
 size_flags_vertical = 8
 
-[node name="Control" type="HBoxContainer" parent="PlayerVisual/CardVisual/Labels"]
+[node name="Control" type="HBoxContainer" parent="PlayerVisual/CardVisual/Btns"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="Skip" type="HBoxContainer" parent="PlayerVisual/CardVisual/Labels/Control"]
+[node name="Skip" type="HBoxContainer" parent="PlayerVisual/CardVisual/Btns/Control"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="PlayerVisual/CardVisual/Labels/Control/Skip"]
+[node name="TextureButton" type="TextureButton" parent="PlayerVisual/CardVisual/Btns/Control/Skip"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 texture_normal = ExtResource("5_a5wr0")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="PlayerVisual/CardVisual/Labels/Control/Skip"]
+[node name="Label" type="Label" parent="PlayerVisual/CardVisual/Btns/Control/Skip"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Skip"
 
-[node name="Draw" type="HBoxContainer" parent="PlayerVisual/CardVisual/Labels/Control"]
+[node name="Draw" type="HBoxContainer" parent="PlayerVisual/CardVisual/Btns/Control"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="PlayerVisual/CardVisual/Labels/Control/Draw"]
+[node name="TextureButton" type="TextureButton" parent="PlayerVisual/CardVisual/Btns/Control/Draw"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 texture_normal = ExtResource("4_pvr7f")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="PlayerVisual/CardVisual/Labels/Control/Draw"]
+[node name="Label" type="Label" parent="PlayerVisual/CardVisual/Btns/Control/Draw"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Draw"
 
-[node name="Score" type="Label" parent="PlayerVisual/CardVisual/Labels"]
+[node name="Lock" type="HBoxContainer" parent="PlayerVisual/CardVisual/Btns/Control"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="PlayerVisual/CardVisual/Btns/Control/Lock"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture_normal = ExtResource("7_of78w")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PlayerVisual/CardVisual/Btns/Control/Lock"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Lock"
+
+[node name="Restart" type="HBoxContainer" parent="PlayerVisual/CardVisual/Btns/Control"]
+visible = false
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="PlayerVisual/CardVisual/Btns/Control/Restart"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture_normal = ExtResource("7_1ouwq")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PlayerVisual/CardVisual/Btns/Control/Restart"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Restart"
+
+[node name="Score" type="Label" parent="PlayerVisual/CardVisual/Btns"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
