@@ -1,0 +1,103 @@
+[gd_scene load_steps=9 format=3 uid="uid://dsq1ct5anv1re"]
+
+[ext_resource type="PackedScene" uid="uid://ba46m7lb6ra7c" path="res://nodes/player.tscn" id="2_3d3xh"]
+[ext_resource type="PackedScene" uid="uid://xwp74ptk83tv" path="res://nodes/game_manager.tscn" id="3_gq6pi"]
+[ext_resource type="Script" path="res://scripts/Seat.cs" id="3_l7aa2"]
+[ext_resource type="Script" path="res://scripts/TurnDisplayUI.cs" id="4_a1o7h"]
+[ext_resource type="Texture2D" uid="uid://cuvjoikx405nr" path="res://sprites/tile_0000.png" id="4_lwrfa"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_8d0w6"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2D.gd" id="6_u1cy6"]
+
+[sub_resource type="SystemFont" id="SystemFont_84mc1"]
+font_names = PackedStringArray("Nunito")
+
+[node name="main" type="Node"]
+
+[node name="game_manager" parent="." node_paths=PackedStringArray("Players") instance=ExtResource("3_gq6pi")]
+Players = [NodePath("../Map/Seat 1/player"), NodePath("../Map/Seat 2/player2"), NodePath("../Map/Seat 3/player3"), NodePath("../Map/Seat 4/player4")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TurnDisplay" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_a1o7h")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="CanvasLayer/TurnDisplay"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 26.0
+grow_horizontal = 0
+theme_override_fonts/font = SubResource("SystemFont_84mc1")
+theme_override_font_sizes/font_size = 50
+text = "1"
+
+[node name="Map" type="Node2D" parent="."]
+
+[node name="Seat 1" type="Node2D" parent="Map"]
+position = Vector2(447, 537)
+script = ExtResource("3_l7aa2")
+
+[node name="player" parent="Map/Seat 1" instance=ExtResource("2_3d3xh")]
+
+[node name="Seat 2" type="Node2D" parent="Map"]
+position = Vector2(0, 360)
+script = ExtResource("3_l7aa2")
+childRotation = 90.0
+
+[node name="player2" parent="Map/Seat 2" instance=ExtResource("2_3d3xh")]
+
+[node name="Seat 3" type="Node2D" parent="Map"]
+position = Vector2(447, 183)
+script = ExtResource("3_l7aa2")
+childRotation = 180.0
+
+[node name="player3" parent="Map/Seat 3" instance=ExtResource("2_3d3xh")]
+
+[node name="Seat 4" type="Node2D" parent="Map"]
+position = Vector2(890, 360)
+script = ExtResource("3_l7aa2")
+childRotation = -90.0
+
+[node name="player4" parent="Map/Seat 4" instance=ExtResource("2_3d3xh")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(640, 382)
+scale = Vector2(100, 50)
+texture = ExtResource("4_lwrfa")
+
+[node name="HorizontalView" type="Node2D" parent="."]
+position = Vector2(640, 360)
+script = ExtResource("6_u1cy6")
+priority_override = false
+priority = 0
+zoom = Vector2(1, 1)
+follow_mode = 0
+frame_preview = true
+pixel_perfect = false
+limit/draw_limits = false
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+limit/limit_node_target = NodePath("")
+limit/smoothed = false
+tween_parameters = null
+tween_on_load = true
+inactive_update_mode = 0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+ignore_rotation = false
+rotation_smoothing_enabled = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+script = ExtResource("5_8d0w6")

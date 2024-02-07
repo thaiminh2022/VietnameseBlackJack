@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ewnws6ktj77t"]
+
+[ext_resource type="Texture2D" uid="uid://b3t01rjdnalld" path="res://sprites/cards/card_back.png" id="1_1pdad"]
+[ext_resource type="Script" path="res://scripts/CardSingleUI.cs" id="2_mf168"]
+
+[node name="CardSingleUI" type="TextureRect"]
+texture = ExtResource("1_1pdad")
+expand_mode = 2
+stretch_mode = 5
+script = ExtResource("2_mf168")

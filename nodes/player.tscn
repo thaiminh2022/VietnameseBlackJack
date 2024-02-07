@@ -1,0 +1,250 @@
+[gd_scene load_steps=11 format=3 uid="uid://ba46m7lb6ra7c"]
+
+[ext_resource type="Script" path="res://scripts/Player.cs" id="1_n6iev"]
+[ext_resource type="Script" path="res://scripts/PlayerVisual.cs" id="2_78ox8"]
+[ext_resource type="PackedScene" uid="uid://ewnws6ktj77t" path="res://nodes/card_single_ui.tscn" id="3_r1wba"]
+[ext_resource type="Texture2D" uid="uid://y14m6o4x6pdt" path="res://sprites/keyboard_e.png" id="4_pvr7f"]
+[ext_resource type="Texture2D" uid="uid://crgc5k6j5ma3c" path="res://sprites/keyboard_q.png" id="5_a5wr0"]
+[ext_resource type="Texture2D" uid="uid://b3t01rjdnalld" path="res://sprites/cards/card_back.png" id="6_gv63s"]
+[ext_resource type="Script" path="res://scripts/PlayerAnimation.cs" id="7_500br"]
+
+[sub_resource type="Animation" id="Animation_wur5c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual/AnimationVisual/TextureRect:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.785398]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerVisual/AnimationVisual/TextureRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerVisual/AnimationVisual/TextureRect:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(576, 295.5)]
+}
+
+[sub_resource type="Animation" id="Animation_n3vea"]
+resource_name = "draw_card"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual/AnimationVisual/TextureRect:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.14159]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerVisual/AnimationVisual/TextureRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerVisual/AnimationVisual/TextureRect:anchors_preset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [8, 7]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerVisual/AnimationVisual/TextureRect:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(576, 295.5), Vector2(576, 800)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ivmnr"]
+_data = {
+"RESET": SubResource("Animation_wur5c"),
+"draw_card": SubResource("Animation_n3vea")
+}
+
+[node name="player" type="Node2D" node_paths=PackedStringArray("cardVisual", "animationVisual")]
+script = ExtResource("1_n6iev")
+cardVisual = NodePath("PlayerVisual/CardVisual")
+animationVisual = NodePath("PlayerVisual/AnimationVisual")
+
+[node name="PlayerVisual" type="CanvasLayer" parent="." node_paths=PackedStringArray("player", "cardHolder", "scoreCount")]
+layer = 2
+follow_viewport_enabled = true
+script = ExtResource("2_78ox8")
+player = NodePath("..")
+cardHolder = NodePath("CardVisual/CardHolder")
+cardTemplate = ExtResource("3_r1wba")
+scoreCount = NodePath("CardVisual/Labels/Score")
+
+[node name="AnimationVisual" type="Control" parent="PlayerVisual"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(640, 360)
+
+[node name="TextureRect" type="TextureRect" parent="PlayerVisual/AnimationVisual"]
+visible = false
+custom_minimum_size = Vector2(128, 129)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 576.0
+offset_top = 295.5
+offset_right = 704.0
+offset_bottom = 424.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.785398
+pivot_offset = Vector2(64, 64)
+texture = ExtResource("6_gv63s")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardVisual" type="Control" parent="PlayerVisual"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -193.0
+offset_top = -173.0
+offset_right = 193.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(193, 0)
+
+[node name="Labels" type="HBoxContainer" parent="PlayerVisual/CardVisual"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 45.0
+grow_horizontal = 2
+size_flags_vertical = 8
+
+[node name="Control" type="HBoxContainer" parent="PlayerVisual/CardVisual/Labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Skip" type="HBoxContainer" parent="PlayerVisual/CardVisual/Labels/Control"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="PlayerVisual/CardVisual/Labels/Control/Skip"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture_normal = ExtResource("5_a5wr0")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PlayerVisual/CardVisual/Labels/Control/Skip"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Skip"
+
+[node name="Draw" type="HBoxContainer" parent="PlayerVisual/CardVisual/Labels/Control"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="PlayerVisual/CardVisual/Labels/Control/Draw"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture_normal = ExtResource("4_pvr7f")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PlayerVisual/CardVisual/Labels/Control/Draw"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Draw"
+
+[node name="Score" type="Label" parent="PlayerVisual/CardVisual/Labels"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 30
+text = "21"
+
+[node name="CardHolder" type="HBoxContainer" parent="PlayerVisual/CardVisual"]
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -193.0
+offset_top = -128.0
+offset_right = 193.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+theme_override_constants/separation = -45
+alignment = 1
+
+[node name="CardSingleUI" parent="PlayerVisual/CardVisual/CardHolder" instance=ExtResource("3_r1wba")]
+layout_mode = 2
+
+[node name="CardSingleUI2" parent="PlayerVisual/CardVisual/CardHolder" instance=ExtResource("3_r1wba")]
+layout_mode = 2
+
+[node name="CardSingleUI3" parent="PlayerVisual/CardVisual/CardHolder" instance=ExtResource("3_r1wba")]
+layout_mode = 2
+
+[node name="CardSingleUI4" parent="PlayerVisual/CardVisual/CardHolder" instance=ExtResource("3_r1wba")]
+layout_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." node_paths=PackedStringArray("player")]
+libraries = {
+"": SubResource("AnimationLibrary_ivmnr")
+}
+script = ExtResource("7_500br")
+player = NodePath("..")
